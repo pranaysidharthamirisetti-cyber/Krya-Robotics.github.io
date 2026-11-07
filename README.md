@@ -1,32 +1,50 @@
-# React + TypeScript + Vite
+# KRYA Robotics - Autonomous Cyber-Physical Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Next-generation sensory-adaptive robotic systems equipped with real-time neural edge processing, sub-millimeter precision torque actuators, and zero-downtime fleet orchestration.
 
-Currently, two official plugins are available:
+## GitHub Pages Deployment
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This repository is pre-configured for automated **GitHub Pages** deployment via GitHub Actions.
 
-## React Compiler
+### Quick Setup & Local Execution
+`ash
+# Clone the repository
+git clone <your-repo-url>
+cd Krya-Robotics
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Install dependencies
+npm install
 
-## Expanding the Oxlint configuration
+# Start development server
+npm run dev
+`
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+### Build for Production
+`ash
+npm run build
+`
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+### GitHub Pages Automatic Deployment
+This repository includes .github/workflows/deploy.yml which deploys the application automatically to GitHub Pages on every push to main or master.
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+1. Push this repository to GitHub:
+`ash
+git add .
+git commit -m "Initialize Krya Robotics Web Platform"
+git branch -M main
+git remote add origin https://github.com/<your-username>/<repo-name>.git
+git push -u origin main
+`
+2. In your GitHub repository:
+- Go to Settings > Pages
+- Under Build and deployment > Source, select GitHub Actions
+3. The workflow will automatically trigger, build the production bundle, and publish your site.
+
+## Features Included
+- Dynamic Lighting Background: Cursor-driven radial ambient glow with reactive ambient cyber meshes for both light & dark modes.
+- Interactive Robot Arm Simulation: 6-DoF visual articulation with real-time torque, angle slider controls, and gripper actuation.
+- Live Telemetry Stream: Real-time simulation of linear velocity, solid cell charge, neural vision latency, and thermal parameters.
+- Payload Interchanger: Hot-swap simulation payloads with instant visual feedback and calibration readouts.
+- Autonomous Fleet Matrix: Grid monitoring multiple active autonomous robot clusters.
+- Interactive Deployment ROI Calculator: Dynamic slider calculation for unit fleet size and payback timeline.
+- Engineering Inquiry System: Reservation form with celebration confetti animations.
