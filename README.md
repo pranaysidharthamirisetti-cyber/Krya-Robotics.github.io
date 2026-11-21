@@ -49,12 +49,44 @@ git push -u origin main
 - Interactive Deployment ROI Calculator: Dynamic slider calculation for unit fleet size and payback timeline.
 - Engineering Inquiry System: Reservation form with celebration confetti animations.
 
-## Team Hub prototype
+## Team Hub accounts
 
-Open **Team Hub** from the site header to try the workspace prototype. It starts with sample projects but no example robots or tasks, so you can add your own. It includes separate Competition and R&D robot tracks, member assignments, task status/progress updates, and due-date views. Changes are saved in the current browser using `localStorage`.
+The Team Hub now uses Supabase Auth for invitation-only email/password sign-in. Administrators can invite users, disable or re-enable sign-in, and review the latest 100 login attempts. Login history stores only the account email, time, and success/failure result; it never stores passwords or IP/device details. Team workspace projects and tasks remain a browser-local prototype, isolated by account on each browser but not shared between devices.
 
-This is a front-end prototype, not a production team system:
+GitHub Pages is only the static frontend. Supabase provides authentication, account administration, and the protected login-event table. The service-role key must remain in Supabase's server-side environment and must never be added to the frontend, GitHub Pages, or repository.
 
-- GitHub Pages serves static files; this prototype does not provide accounts, email/password login, shared team data, or email/push reminders.
-- Do not enter real member details, passwords, or confidential project information. The sample data is illustrative and stays in the browser where it was entered.
-- Never store or export passwords in Excel. A production version needs an authentication provider, a protected shared database, access rules, and a notification service. Only non-sensitive account fields should be exported if an administrator needs a roster.
+### Connect Supabase
+
+1. In Supabase, turn off **Allow new users to sign up** under Authentication settings so accounts can only be invited.
+2. Set the Supabase Auth **Site URL** to the published Team Hub URL and add that URL with `?view=team` to the allowed redirect URLs. This is needed for invitation and password-reset links.
+3. Add the following local values to an ignored `.env.local` file:
+
+   ```text
+   VITE_SUPABASE_URL=https://bwatkmmbevaakgiaerhm.supabase.co
+   VITE_SUPABASE_PUBLISHABLE_KEY=<your-publishable-key>
+   ```
+
+   For GitHub Pages builds, add the same names under **Settings → Secrets and variables → Actions → Variables**. The publishable key is intended for browser use; never use a service-role or secret key here.
+4. Install and link the Supabase CLI, then apply the database migration and deploy the functions:
+
+   ```bash
+   npx supabase login
+   npx supabase link --project-ref bwatkmmbevaakgiaerhm
+   npx supabase db push
+   npx supabase functions deploy account-login
+   npx supabase functions deploy admin-accounts
+   ```
+
+5. Create the first user from the Supabase Auth dashboard, then grant administrator access once from the SQL Editor (replace the email):
+
+   ```sql
+   update auth.users
+   set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb) || '{"role":"admin"}'::jsonb
+   where email = lower('admin@example.com');
+   ```
+
+   Sign out and back in after setting the role. The app does not expose a way for users to grant themselves administrator access.
+
+6. Add the GitHub Pages URL to Supabase Auth's allowed redirect URLs and enable the email provider. Supabase sends invitation and password-reset emails; configure an SMTP provider in Supabase before relying on production email delivery.
+
+The public website can be built without Supabase values, but Team Hub sign-in stays disabled until the configuration, migration, and Edge Functions are set up.

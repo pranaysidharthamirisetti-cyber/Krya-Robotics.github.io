@@ -15,11 +15,15 @@ import Footer from './components/Footer';
 import RobotField from './components/RobotField';
 import TeamHub from './components/TeamHub';
 
+function isTeamHubLocation() {
+  return window.location.hash === '#team' || new URLSearchParams(window.location.search).get('view') === 'team';
+}
+
 export default function App() {
-  const [showTeamHub, setShowTeamHub] = useState(window.location.hash === '#team');
+  const [showTeamHub, setShowTeamHub] = useState(isTeamHubLocation);
 
   useEffect(() => {
-    const handleHashChange = () => setShowTeamHub(window.location.hash === '#team');
+    const handleHashChange = () => setShowTeamHub(isTeamHubLocation());
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
