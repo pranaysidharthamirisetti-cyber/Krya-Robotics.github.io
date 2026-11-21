@@ -66,7 +66,7 @@ GitHub Pages is only the static frontend. Supabase provides authentication, acco
    VITE_SUPABASE_PUBLISHABLE_KEY=<your-publishable-key>
    ```
 
-   For GitHub Pages builds, add the same names under **Settings → Secrets and variables → Actions → Variables**. The publishable key is intended for browser use; never use a service-role or secret key here.
+   For GitHub Pages builds, add both names as repository secrets under **Settings → Secrets and variables → Actions → New repository secret**. Existing repository Actions variables with the same names continue to work as a fallback. The publishable key is intended for browser use; never use a service-role or secret key here.
 4. Install and link the Supabase CLI, then apply the database migration and deploy the functions:
 
    ```bash
@@ -90,3 +90,5 @@ GitHub Pages is only the static frontend. Supabase provides authentication, acco
 6. Add the GitHub Pages URL to Supabase Auth's allowed redirect URLs and enable the email provider. Supabase sends invitation and password-reset emails; configure an SMTP provider in Supabase before relying on production email delivery.
 
 The public website can be built without Supabase values, but Team Hub sign-in stays disabled until the configuration, migration, and Edge Functions are set up.
+
+The GitHub Pages workflow sets `VITE_BASE_PATH` to `/Krya-Robotics.github.io/` for the project site. If the repository is renamed, update that workflow value. Team Hub uses hash/query routing on the deployed `index.html`; its assets and favicon are emitted under the same base path.

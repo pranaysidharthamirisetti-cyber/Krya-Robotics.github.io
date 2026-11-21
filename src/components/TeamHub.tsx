@@ -146,13 +146,17 @@ function SignIn({
       const { data, error: invokeError } = await client.functions.invoke<LoginResponse>('account-login', {
         body: { email, password },
       });
-      if (invokeError) throw new Error('The secure sign-in service is unavailable. Please try again later.');
+      if (invokeError) {
+        console.error('Krya secure sign-in service invocation failed:', invokeError);
+        throw new Error('The secure sign-in service is unavailable. Please try again later.');
+      }
       if (!data?.ok || !data.session) throw new Error(data?.error || 'Sign-in failed. Check your email and password.');
 
       const { error: sessionError } = await client.auth.setSession(data.session);
       if (sessionError) throw new Error('Your sign-in could not be completed. Please try again.');
       setPassword('');
     } catch (signInError) {
+      console.error('Krya sign-in failed:', signInError);
       onError(signInError instanceof Error ? signInError.message : 'Sign-in failed. Please try again.');
     } finally {
       setBusy(false);
@@ -289,7 +293,7 @@ function SetupRequired() {
         </div>
         <h1 className="font-display text-2xl font-semibold text-slate-900">Team Hub sign-in needs setup</h1>
         <p className="mt-3 text-sm leading-6 text-slate-600">
-          Add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_PUBLISHABLE_KEY</code> to the local <code>.env.local</code> file and the GitHub Actions repository variables.
+          Add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_PUBLISHABLE_KEY</code> to the local <code>.env.local</code> file and the GitHub Actions repository secrets.
         </p>
         <p className="mt-3 text-sm leading-6 text-slate-600">
           Only use a publishable key in browser code. Never put a Supabase service-role or secret key in this site.
