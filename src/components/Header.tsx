@@ -47,8 +47,14 @@ export default function Header() {
 
         <div className="flex items-center gap-3">
           <a
+            href="#team"
+            className="hidden sm:inline-flex px-4 py-2.5 rounded-xl border border-cyan-200 bg-white/80 text-cyan-800 text-sm font-semibold items-center gap-1.5 hover:bg-cyan-50 transition-all"
+          >
+            Team Hub
+          </a>
+          <a
             href="#contact"
-            className="hidden sm:inline-flex px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold items-center gap-1.5 shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            className="hidden md:inline-flex px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold items-center gap-1.5 shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <Sparkles className="w-4 h-4" />
             Reserve Unit
@@ -75,6 +81,13 @@ export default function Header() {
               {link.label}
             </a>
           ))}
+          <a
+            href="#team"
+            onClick={() => setMobileOpen(false)}
+            className="mt-2 py-2.5 px-3 rounded-xl text-center text-sm font-semibold border border-cyan-200 bg-cyan-50 text-cyan-800"
+          >
+            Team Hub
+          </a>
           <a
             href="#contact"
             onClick={() => setMobileOpen(false)}

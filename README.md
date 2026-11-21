@@ -48,3 +48,13 @@ git push -u origin main
 - Autonomous Fleet Matrix: Grid monitoring multiple active autonomous robot clusters.
 - Interactive Deployment ROI Calculator: Dynamic slider calculation for unit fleet size and payback timeline.
 - Engineering Inquiry System: Reservation form with celebration confetti animations.
+
+## Team Hub prototype
+
+Open **Team Hub** from the site header to try the workspace prototype. It starts with sample projects but no example robots or tasks, so you can add your own. It includes separate Competition and R&D robot tracks, member assignments, task status/progress updates, and due-date views. Changes are saved in the current browser using `localStorage`.
+
+This is a front-end prototype, not a production team system:
+
+- GitHub Pages serves static files; this prototype does not provide accounts, email/password login, shared team data, or email/push reminders.
+- Do not enter real member details, passwords, or confidential project information. The sample data is illustrative and stays in the browser where it was entered.
+- Never store or export passwords in Excel. A production version needs an authentication provider, a protected shared database, access rules, and a notification service. Only non-sensitive account fields should be exported if an administrator needs a roster.

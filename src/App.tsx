@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import TrustedBy from './components/TrustedBy';
@@ -13,8 +13,17 @@ import Faq from './components/Faq';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import RobotField from './components/RobotField';
+import TeamHub from './components/TeamHub';
 
 export default function App() {
+  const [showTeamHub, setShowTeamHub] = useState(window.location.hash === '#team');
+
+  useEffect(() => {
+    const handleHashChange = () => setShowTeamHub(window.location.hash === '#team');
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   // Scroll-reveal: fade & rise sections into view as the user scrolls
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -31,6 +40,8 @@ export default function App() {
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
+
+  if (showTeamHub) return <TeamHub />;
 
   return (
     <div className="min-h-screen relative overflow-x-hidden bg-slate-50 text-slate-800">
